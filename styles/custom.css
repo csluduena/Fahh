@@ -1,0 +1,81 @@
+/* Custom styles for Fahhkies presentation */
+
+:root {
+  --twitch-purple: #9146FF;
+  --twitch-dark: #18181B;
+  --twitch-light-text: #DEDEE3;
+}
+
+/* Global styles */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom slide backgrounds */
+.slide-bg-twitch {
+  background-color: var(--twitch-dark);
+  background-image: linear-gradient(135deg, #18181B 0%, #0E0E10 100%);
+  color: var(--twitch-light-text);
+}
+
+/* Custom animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-animation {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Custom button styles */
+.twitch-button {
+  background-color: var(--twitch-purple);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.twitch-button:hover {
+  background-color: #7B31E4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(145, 70, 255, 0.4);
+}
+
+/* Custom card styles */
+.twitch-card {
+  background-color: rgba(24, 24, 27, 0.7);
+  border: 1px solid rgba(145, 70, 255, 0.2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.twitch-card:hover {
+  border-color: var(--twitch-purple);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(145, 70, 255, 0.2);
+}
+
+/* Glowing effect */
+.glow {
+  box-shadow: 0 0 10px rgba(145, 70, 255, 0.5), 
+              0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+/* Custom background for certain slides */
+.gradient-mesh {
+  background-image: 
+    linear-gradient(to right, rgba(145, 70, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(145, 70, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
