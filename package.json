@@ -5,9 +5,10 @@
     "build": "slidev build",
     "export": "slidev export"
   },
-  "dependencies": {
+  "devDependencies": {
     "@slidev/cli": "latest",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest"
-  }
+  },
+  "dependencies": {}
 }
