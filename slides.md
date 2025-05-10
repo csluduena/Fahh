@@ -1,7 +1,7 @@
 ---
 # Fahhkies Twitch Event
 theme: seriph
-colorSchema: 'dawrk'
+colorSchema: 'dark'
 background: https://i.imgur.com/VlFHG9l.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2
 class: 'text-center'
 highlighter: shiki
