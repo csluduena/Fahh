@@ -79,3 +79,55 @@ body {
     linear-gradient(to bottom, rgba(145, 70, 255, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+/* Navigation arrows */
+.nav-arrows {
+  position: fixed;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.nav-arrow {
+  pointer-events: auto;
+  background-color: rgba(145, 70, 255, 0.2);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 2rem;
+  border: 2px solid rgba(145, 70, 255, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+.nav-arrow:hover {
+  background-color: rgba(145, 70, 255, 0.4);
+  transform: scale(1.1);
+  border-color: rgba(145, 70, 255, 0.6);
+}
+
+/* Peru clock */
+.peru-clock {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  color: white;
+  font-family: monospace;
+  font-size: 0.9rem;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
