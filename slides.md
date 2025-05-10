@@ -30,8 +30,13 @@ css: unocss
 <div class="audio-donut-container">
   <button id="audioDonutBtn" class="donut-btn vibrate-audio-btn">
     <span id="donutIcon" class="donut-icon">
-      <svg id="playIcon" width="36" height="36" viewBox="0 0 36 36" style="display:inline;"><circle cx="18" cy="18" r="16" fill="none" stroke="#fff" stroke-width="8"/><polygon points="15,12 27,18 15,24" fill="#2196f3"/></svg>
-      <svg id="pauseIcon" width="36" height="36" viewBox="0 0 36 36" style="display:none;"><circle cx="18" cy="18" r="16" fill="none" stroke="#fff" stroke-width="8"/><rect x="14" y="12" width="3.5" height="12" fill="#2196f3"/><rect x="20" y="12" width="3.5" height="12" fill="#2196f3"/></svg>
+      <svg id="playIcon" width="110" height="110" viewBox="0 0 36 36" style="display:inline;">
+        <polygon points="15,12 27,18 15,24" fill="#fff"/>
+      </svg>
+      <svg id="pauseIcon" width="110" height="110" viewBox="0 0 36 36" style="display:none;">
+        <rect x="14" y="12" width="3.5" height="12" fill="#fff"/>
+        <rect x="20" y="12" width="3.5" height="12" fill="#fff"/>
+      </svg>
     </span>
   </button>
   <audio id="audioPlayer" src="/img/Gangplank Galleon Restored to HD.mp3"></audio>
@@ -53,12 +58,11 @@ css: unocss
   z-index: 10;
 }
 .donut-btn {
-  width: 70px;
-  height: 70px;
-  background: radial-gradient(circle at 60% 30%, #fff8, #a970ff 80%);
-  border: 5px solid #a970ff;
+  width: 100px;
+  height: 100px;
+  background: url('/img/d.png') center center / cover no-repeat;
+  border: none;
   border-radius: 50%;
-  box-shadow: 0 4px 16px #a970ff88, 0 0 0 8px #fff2 inset;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,15 +70,16 @@ css: unocss
   transition: box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
   outline: none;
-}
-.donut-btn:active {
-  background: radial-gradient(circle at 60% 30%, #fff9, #7130ec 80%);
-  box-shadow: 0 2px 8px #7130ec88, 0 0 0 8px #fff2 inset;
+  box-shadow: 0 4px 16px #a970ff88;
 }
 .donut-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  left: 46%;
+  top: 52%;
+  transform: translate(-50%, -50%);
 }
 .vibrate-audio-btn {
   animation: vibrate 0.3s infinite linear;
@@ -105,7 +110,7 @@ onMounted(() => {
   // Audio player setup
   const audio = document.getElementById('audioPlayer')
   if (audio) {
-    audio.volume = 0.15 // 15%
+    audio.volume = 0.11 // 15%
   }
   const donutBtn = document.getElementById('audioDonutBtn')
   const playIcon = document.getElementById('playIcon')
