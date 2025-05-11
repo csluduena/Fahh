@@ -17,11 +17,15 @@ css: unocss
 <!-- Importar Font Awesome para los iconos del clima -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-# Holi Fahhkies owo
+<div class="flex items-center justify-center">
+  <img src="/img/hi.gif" alt="Holi" style="height: 3em;margin-right: 10px;margin-top: -2%;"/>
+  <h1>Fahhkies </h1>
+  <img src="/img/fahhsit.png" alt="Holi" style="height: 4.8em;margin-right: 10px;margin-top: -2%;"/>
+</div>
 
 <!-- Horario Perú/Bolivia en la esquina superior izquierda -->
-<div class="fixed top-4 left-4 z-50 bg-black/60 px-4 py-2 rounded text-white shadow flex items-center gap-2">
-  <img src="/img/pe.png" alt="País" id="bandera-pais" style="height: 1.5em; cursor: pointer;"/>
+<div class="fixed top-4 left-4 z-999 bg-black/60 px-4 py-2 rounded text-white shadow flex items-center gap-2">
+  <img src="/img/pe.png" alt="País" id="bandera-pais" style="height: 1.5em; cursor: pointer; position: relative; z-index: 1001;"/>
   <span id="hora-pais">05:48:40 p. m.</span>
 </div>
 
@@ -332,16 +336,44 @@ onMounted(() => {
   function configurarEventosBanderas() {
     const banderas = document.querySelectorAll('#bandera-pais')
     
-    // Eliminar eventos anteriores para evitar duplicados
-    banderas.forEach(bandera => {
-      // Clonar y reemplazar para eliminar todos los listeners anteriores
+    console.log(`Encontradas ${banderas.length} banderas para configurar`)
+    
+    banderas.forEach((bandera, index) => {
+      // Asegurarnos que sea clickeable
+      bandera.style.pointerEvents = 'auto'
+      bandera.style.cursor = 'pointer'
+      bandera.style.zIndex = '1000'
+      
+      // Usando atributo data para detectar si ya fue configurado
+      if (bandera.getAttribute('data-configured') === 'true') {
+        console.log('Bandera ya configurada, saltando', index)
+        return
+      }
+      
+      // Eliminar eventos anteriores
       const nuevaBandera = bandera.cloneNode(true)
       if (bandera.parentNode) {
         bandera.parentNode.replaceChild(nuevaBandera, bandera)
+      } else {
+        console.warn('No se pudo reemplazar la bandera', index)
+        return
       }
       
-      // Agregar el nuevo evento de clic
+      // Marcar como configurada
+      nuevaBandera.setAttribute('data-configured', 'true')
+      
+      // Agregar evento directo en lugar de addEventListener
+      nuevaBandera.onclick = function(e) {
+        console.log('Clic en bandera detectado')
+        e.preventDefault()
+        e.stopPropagation()
+        cambiarPais()
+        return false
+      }
+      
+      // Evento redundante con captura para mayor seguridad
       nuevaBandera.addEventListener('click', function(e) {
+        console.log('Clic en bandera detectado (listener)')
         e.preventDefault()
         e.stopPropagation()
         cambiarPais()
@@ -354,25 +386,83 @@ onMounted(() => {
   // Configurar eventos inicialmente
   configurarEventosBanderas()
   
-  // Función específica para manejar el slide 3
-  function manejarSlide3() {
-    // Asegurarse de que estamos en el slide 3
-    if (currentSlide === 2) {
-      console.log('Estamos en el slide 3, configurando eventos especiales')
-      
-      // Configurar eventos directamente en la bandera del slide 3
-      const banderaSlide3 = document.querySelector('.slidev-page-3 #bandera-pais')
-      if (banderaSlide3) {
-        console.log('Bandera del slide 3 encontrada, configurando evento')
-        banderaSlide3.onclick = null // Eliminar eventos anteriores
-        banderaSlide3.addEventListener('click', function(e) {
-          e.preventDefault()
-          e.stopPropagation()
-          console.log('Clic en bandera del slide 3')
-          cambiarPais()
-        }, true)
+  // Función específica para el slide 3 (con iframe)
+  function configurarSlide3() {
+    // Buscar específicamente la bandera en el slide 3
+    const containers = document.querySelectorAll('.slidev-page')
+    
+    containers.forEach((container, index) => {
+      if (index === 2) { // El tercer slide (índice 2)
+        console.log('Configurando slide 3 especialmente')
+        
+        // Intentar encontrar y mejorar el contenedor
+        const contenedorBandera = container.querySelector('.fixed.top-4.left-4')
+        if (contenedorBandera) {
+          // Hacer el contenedor más visible y clickeable
+          contenedorBandera.style.zIndex = '9999'
+          contenedorBandera.style.position = 'fixed'
+          contenedorBandera.style.top = '16px'
+          contenedorBandera.style.left = '16px'
+          contenedorBandera.style.pointerEvents = 'auto'
+        }
+        
+        // Buscar la bandera específicamente
+        const banderaSlide3 = container.querySelector('#bandera-pais')
+        if (banderaSlide3) {
+          console.log('Configurando bandera en slide 3 directamente')
+          
+          // Aplicar estilos especiales para mejorar clickabilidad
+          banderaSlide3.style.pointerEvents = 'auto'
+          banderaSlide3.style.cursor = 'pointer'
+          banderaSlide3.style.zIndex = '10001'
+          banderaSlide3.style.position = 'relative'
+          banderaSlide3.style.width = '24px' // Asegurar que tenga un tamaño mínimo
+          banderaSlide3.style.height = '24px'
+          
+          // Crear un botón invisible más grande sobre la bandera para facilitar el clic
+          const clickHelper = document.createElement('button')
+          clickHelper.style.position = 'absolute'
+          clickHelper.style.top = '-10px'
+          clickHelper.style.left = '-10px'
+          clickHelper.style.width = '40px'
+          clickHelper.style.height = '40px'
+          clickHelper.style.background = 'transparent'
+          clickHelper.style.border = 'none'
+          clickHelper.style.cursor = 'pointer'
+          clickHelper.style.zIndex = '10000'
+          
+          clickHelper.onclick = function(e) {
+            console.log('Clic en helper de bandera del slide 3')
+            e.preventDefault()
+            e.stopPropagation()
+            cambiarPais()
+            return false
+          }
+          
+          // Insertar el helper antes que la bandera
+          if (banderaSlide3.parentNode) {
+            banderaSlide3.parentNode.style.position = 'relative'
+            banderaSlide3.parentNode.insertBefore(clickHelper, banderaSlide3)
+          }
+          
+          // También aplicar directamente los eventos en la bandera
+          banderaSlide3.onclick = function(e) {
+            console.log('Clic directo en bandera del slide 3')
+            e.stopPropagation()
+            e.preventDefault()
+            cambiarPais()
+            return false
+          }
+        }
+        
+        // Intentar mejorar todos los elementos fijos del slide 3
+        const elementosFijos = container.querySelectorAll('.fixed')
+        elementosFijos.forEach(elem => {
+          elem.style.zIndex = parseInt(elem.style.zIndex || '1') + 5000
+          elem.style.position = 'fixed'
+        })
       }
-    }
+    })
   }
   
   // Reconfigurar eventos después de cambiar de slide
@@ -390,13 +480,19 @@ onMounted(() => {
       configurarEventosBanderas()
       actualizarHoraPais()
       actualizarClimaCiudad()
-      manejarSlide3() // Manejar específicamente el slide 3
-    }, 300) // Aumentado a 300ms para dar más tiempo
+      
+      // Si estamos en el slide 3, aplicar configuración especial
+      if (currentSlide === 2) {
+        setTimeout(configurarSlide3, 100)
+      }
+    }, 300)
   })
   
-  // Configurar eventos para el slide inicial
+  // También aplicar configuración especial para el slide 3 al inicio
   setTimeout(() => {
-    manejarSlide3()
+    if (currentSlide === 2) {
+      configurarSlide3()
+    }
   }, 500)
 })
 </script>
@@ -413,8 +509,8 @@ layout: two-cols
 # FahhKistan y los Kakiers
 
 <!-- Horario Perú/Bolivia en la esquina superior izquierda -->
-<div class="fixed top-4 left-4 z-50 bg-black/60 px-4 py-2 rounded text-white shadow flex items-center gap-2">
-  <img src="/img/pe.png" alt="País" id="bandera-pais" style="height: 1.5em; cursor: pointer;"/>
+<div class="fixed top-4 left-4 z-999 bg-black/60 px-4 py-2 rounded text-white shadow flex items-center gap-2">
+  <img src="/img/pe.png" alt="País" id="bandera-pais" style="height: 1.5em; cursor: pointer; position: relative; z-index: 1001;"/>
   <span id="hora-pais">05:48:40 p. m.</span>
 </div>
 
@@ -426,12 +522,12 @@ layout: two-cols
 
 <!-- Flecha izquierda -->
 <button class="fixed left-4 top-1/2 -translate-y-1/2 z-50" @click="$slidev.nav.prev">
-  <img src="/img/left1.png" alt="Anterior" class="w-17 h-10 transition-transform duration-200 hover:scale-150" />
+  <img src="/img/left1.png" alt="Anterior" class="w-17 h-10 ml--2 transition-transform duration-200 hover:scale-150" />
 </button>
 
 <!-- Flecha derecha -->
 <button class="fixed right-4 top-1/2 -translate-y-1/2 z-50" @click="$slidev.nav.next">
-  <img src="/img/right1.png" alt="Siguiente" class="w-17 h-10 transition-transform duration-200 hover:scale-150" />
+  <img src="/img/right1.png" alt="Siguiente" class="w-17 h-10 mr-1 transition-transform duration-200 hover:scale-150" />
 </button>
 
 
@@ -440,7 +536,7 @@ layout: two-cols
   :initial="{ x: -80, opacity: 0 }"
   :enter="{ x: 0, opacity: 1, transition: { delay: 200, duration: 1000 } }">
 
-Holi, esto comenzó como un meme, para knowPots y fue creciendo de a poquito (como la tuya). 
+Holi, esto comenzó como un meme, para KnowPots y fue creciendo de a poquito (como la tuya). 
 
 Hasta que decidí hacer un ad de KnowPots y pedí ayuda a varios fahhkiers.
 
@@ -502,8 +598,8 @@ class: 'bg-cover bg-center'
 #
 
 <!-- Horario Perú/Bolivia en la esquina superior izquierda -->
-<div class="fixed top-4 left-4 z-50 bg-black/60 px-4 py-2 rounded text-white shadow flex items-center gap-2">
-  <img src="/img/pe.png" alt="País" id="bandera-pais" style="height: 1.5em; cursor: pointer;"/>
+<div class="fixed top-4 left-4 z-999 bg-black/60 px-4 py-2 rounded text-white shadow flex items-center gap-2">
+  <img src="/img/pe.png" alt="País" id="bandera-pais" style="height: 1.5em; cursor: pointer; position: relative; z-index: 1001;"/>
   <span id="hora-pais">05:48:40 p. m.</span>
 </div>
 
@@ -532,14 +628,7 @@ class: 'bg-cover bg-center'
 <!-- Contenido centrado encima del fondo -->
 <div class="flex flex-col items-center pt-8 text-white relative z-10">
   <div class="relative">
-    <iframe width="560" height="315" 
-    src="https://www.youtube.com/embed/_ZvknalXsfg?modestbranding=1&rel=0&controls=1" 
-    title="YouTube video player" 
-    frameborder="0"
-    loading="lazy"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    allowfullscreen>
-    </iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/selixGQw6hM?si=z-LW0Z6Y-bnSO9zF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     <!-- Capa transparente para evitar que el iframe capture eventos -->
     <div class="absolute inset-0 pointer-events-none"></div>
   </div>
